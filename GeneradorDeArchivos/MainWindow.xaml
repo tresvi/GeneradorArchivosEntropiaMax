@@ -5,18 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeneradorDeArchivos"
         mc:Ignorable="d"
-        Title="MainWindow" Height="279" Width="489">
+        Title="MainWindow" Height="310" Width="489">
     <Grid Margin="0,0,0,10">
         <Button Content="Generar Archivo" HorizontalAlignment="Left" Height="31" Margin="159,208,0,0" VerticalAlignment="Top" Width="151" Click="Button_Click"/>
-        <Label Content="Tamaño en bytes:" HorizontalAlignment="Left" Height="25" Margin="132,166,0,0" VerticalAlignment="Top" Width="122"/>
+        <Label Content="Tamaño en bytes:" HorizontalAlignment="Left" Height="25" Margin="132,166,0,0" VerticalAlignment="Top" Width="106"/>
 
-        <Border BorderBrush="Black" BorderThickness="1" Margin="24,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="73" Width="176">
-            <StackPanel Name="spJuegoCaracteres" HorizontalAlignment="Left" Width="148" Height="77" VerticalAlignment="Top">
-                <RadioButton Name="rbRango0_126" Margin="15,30,0,0" Content="Usar rango 0-126"/>
-                <RadioButton Name="rbRango32_126" Margin="15,0,0,0" Content="Usar rango 32-126" IsChecked="True"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="24,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="105" Width="214">
+            <StackPanel Name="spJuegoCaracteres" HorizontalAlignment="Left" Width="203" Height="94" VerticalAlignment="Top">
+                <RadioButton Name="rbBinario" Margin="15,30,0,0" Content="Binario" IsChecked="True" />
+                <RadioButton Name="rbRango0_126" Margin="15,0,0,0" Content="Texto c/Rango ASCII 0-126"/>
+                <RadioButton Name="rbRango32_126" Margin="15,0,0,0" Content="Texto c/Rango ASCII: 32-126"/>
             </StackPanel>
         </Border>
-        <TextBox Name="txtCaracterFijo" HorizontalAlignment="Left" Height="22" Margin="238,169,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="102"/>
+        <TextBox Name="txtFileSize" HorizontalAlignment="Left" Height="22" Margin="238,169,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="102"/>
         <Label Name="lblJuegoCaracteres" Content="Juego de Caracteres" HorizontalAlignment="Left" Height="25" Margin="25,61,0,0" VerticalAlignment="Top" Width="168"/>
         <RadioButton Name ="rbEntropiaMaxima"  Content="Entropía Máxima" HorizontalAlignment="Left" Height="22" Margin="32,27,0,0" VerticalAlignment="Top" Width="160" IsChecked="True" Checked="rbEntropiaMaxima_Checked"/>
         <RadioButton Name ="rbEntropiaMinima" Content="Entropía Mínima (Caractér único)" HorizontalAlignment="Left" Height="22" Margin="259,28,0,0" VerticalAlignment="Top" Width="199" Checked="rbEntropiaMinima_Checked"/>

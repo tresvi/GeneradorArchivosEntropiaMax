@@ -33,32 +33,65 @@ namespace GeneradorDeArchivos
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!ulong.TryParse(txtFileSize.Text, out ulong fileSize))
+            {
+                MessageBox.Show("Debe ingresar un valor entero para el campo de tamaño del archivo"
+                    , "Revise el tamaño de archivo", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             SaveFileDialog cmdSave = new SaveFileDialog();
             cmdSave.ShowDialog();
             string rutaArchivo = cmdSave.FileName;
 
-            const ulong FILE_SIZE = 1000;
-
             if (string.IsNullOrWhiteSpace(rutaArchivo)) return;
 
-            using (StreamWriter sw = new StreamWriter(rutaArchivo))
+            if ((bool)rbBinario.IsChecked)
             {
-                for (ulong i = 0; i < FILE_SIZE; i++ )
-                    sw.Write(GetRandomChar());
+                GenerateBinaryFile(rutaArchivo, fileSize);
+            }
+            else
+            {
+                bool asciiShortRange = (bool)rbRango32_126.IsChecked ? true: false;
+                GenerateTextFile(rutaArchivo, fileSize, asciiShortRange);
             }
 
             MessageBox.Show("Archivo generado satisfactoriamente", "Generador de archivos", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private char GetRandomChar()
+        void GenerateTextFile(string rutaArchivo, ulong fileSize, bool asciiShortRange)
+        {
+            using (StreamWriter sw = new StreamWriter(rutaArchivo))
+            {
+                for (ulong i = 0; i < fileSize; i++)
+                    sw.Write(GetRandomChar(asciiShortRange));
+            }
+        }
+
+
+        static void GenerateBinaryFile(string rutaArchivo, ulong longitud)
+        {
+            // Utiliza Random para generar bytes aleatorios
+            Random random = new Random();
+
+            // Crea un array de bytes con datos aleatorios
+            byte[] datosAleatorios = new byte[longitud];
+            random.NextBytes(datosAleatorios);
+
+            // Escribe los bytes en el archivo
+            File.WriteAllBytes(rutaArchivo, datosAleatorios);
+        }
+
+        private char GetRandomChar(bool asciiShortRange)
         { 
-            return (char)_random.Next(0, 126);
+            if (asciiShortRange)
+                return (char)_random.Next(32, 126);
+            else
+                return (char)_random.Next(0, 126);
         }
 
         private void rbEntropiaMinima_Checked(object sender, RoutedEventArgs e)
-        {
-            txtCaracterFijo.IsEnabled = true;
-            
+        {   
             spJuegoCaracteres.IsEnabled = false;
             rbRango0_126.IsEnabled = false;
             rbRango32_126.IsEnabled = false;
@@ -66,11 +99,10 @@ namespace GeneradorDeArchivos
 
         private void rbEntropiaMaxima_Checked(object sender, RoutedEventArgs e)
         {
-            txtCaracterFijo.IsEnabled = false;
-            
             spJuegoCaracteres.IsEnabled = true;
             rbRango0_126.IsEnabled = true;
             rbRango32_126.IsEnabled = true;
         }
+
     }
 }
